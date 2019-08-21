@@ -19,27 +19,8 @@ function Matches(props) {
     <div className="main-container">
       <div className="menu-styles">
         <nav>
-          <h1>PP</h1>
-          {/* <ul>
-            <Link to="/">
-              <li>
-                <i className="material-icons">home</i>
-                Start Over!
-              </li>
-            </Link>
-            <li>
-              <i className="material-icons">search</i>
-              Browse
-            </li>
-            <Link to="/browse" />
-            <Link to="/matches">
-              <li>
-                <i className="material-icons">favorite</i>
-                Matches
-              </li>
-            </Link>
-          </ul> */}
-          <div>
+          <h1 className="small-logo">PP</h1>
+          <div className="small-menu">
             <Link to="/">
               <i className="material-icons">home</i>
             </Link>
@@ -50,15 +31,34 @@ function Matches(props) {
               <i className="material-icons">favorite</i>
             </Link>
           </div>
+          <h1 className="large-logo">PikiPoké</h1>
+          <div className="large-menu">
+            <Link to="/">
+              <div className="menu-links">
+                <i className="material-icons">home</i>
+                <p>Start</p>
+              </div>
+            </Link>
+            <Link to="/browse">
+              <div className="menu-links">
+                <i className="material-icons">search</i>
+                <p>Browse</p>
+              </div>
+            </Link>
+            <Link to="/matches">
+              <div className="menu-links">
+                <i className="material-icons">favorite</i>
+                <p>Matches</p>
+              </div>
+            </Link>
+          </div>
         </nav>
       </div>
       <div className="content-container">
-        <span>
-          <h1>
-            These are your matches so far, {props.userPokemon.name}
-            <i className="material-icons">favorite</i>
-          </h1>
-        </span>
+        <h1 className="welcome-header">
+          These are your matches so far, {props.userPokemon.name}!
+          <img src={props.userPokemon.img} alt={props.userPokemon.name} />
+        </h1>
         <Slider className="slider-styles" {...sliderSettings}>
           {props.matches.length > 0 ? (
             props.matches.map(pokemon => (
@@ -73,14 +73,6 @@ function Matches(props) {
                     >
                       cancel
                     </i>
-                    {/* <i
-                      className="material-icons"
-                      onClick={() =>
-                        props.checkForMatch(props.userPokemon, pokemon)
-                      }
-                    >
-                      check_circle
-                    </i> */}
                   </h1>
                   <div className="pokemon-details">
                     <span>
@@ -109,7 +101,13 @@ function Matches(props) {
               </div>
             ))
           ) : (
-            <div>Oh no, you have no matches!</div>
+            <div className="empty-message">
+              <img
+                src="https://comicsandmemes.com/wp-content/uploads/surprise-pikachu-meme-000-original-blank.png"
+                alt="Surprised Pikachu"
+              />
+              <p>Oh no! You have no matches. Go browse and find some love...</p>
+            </div>
           )}
         </Slider>
       </div>

@@ -1,4 +1,8 @@
 @import "./style-guide.scss";
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 
 .main-container {
   width: 100vw;
@@ -8,6 +12,24 @@
   align-items: center;
   justify-content: center;
   background-color: $accentColor;
+  *:focus {
+    outline: none;
+  }
+}
+
+.small-logo {
+  display: block;
+
+  @include mq("md") {
+    display: none;
+  }
+}
+
+.large-logo {
+  display: none;
+  @include mq("md") {
+    display: block;
+  }
 }
 
 .menu-styles {
@@ -35,7 +57,7 @@
       font-family: $headerFont;
       color: $lightColor;
     }
-    div {
+    .small-menu {
       margin-top: 15px;
       display: flex;
       flex-direction: column;
@@ -49,63 +71,46 @@
         color: $lightColor;
       }
     }
-
-    // ul {
-    //   border: 1px solid white;
-    //   list-style: none;
-    //   padding-left: 0;
-    //   width: 50px;
-    //   height: 150px;
-    //   display: flex;
-    //   flex-direction: column;
-    //   justify-content: space-between;
-    //   align-items: center;
-    //   i {
-    //     // margin-right: 10px;
-    //     border: 1px solid white;
-    //     margin: 0;
-    //     color: $lightColor;
-    //   }
-    //   // a {
-    //   //   text-decoration: none;
-    //   //   color: $whiteColor;
-    //   // }
-    //   // li {
-    //   //   margin-left: 30px;
-    //   //   display: flex;
-    //   //   flex-direction: row;
-    //   //   align-items: center;
-    //   //   cursor: pointer;
-    //   // }
-    // }
+    .large-menu {
+      @extend .small-menu;
+      display: none;
+    }
   }
-  // navContainer: {
-
-  // },
-  // navLinks: {
-  //   // border: "1px solid black",
-  //   listStyle: "none",
-  //   paddingLeft: 0,
-  //   width: "180px",
-  //   height: "70px",
-  //   display: "flex",
-  //   flexDirection: "column",
-  //   justifyContent: "space-between",
-  //   li: {
-  //     marginLeft: "30px",
-  //     display: "flex",
-  //     flexDirection: "row",
-  //     // justifyContent: "center"
-  //     alignItems: "center",
-  //     cursor: "pointer",
-  //     "&:hover": {
-  //       color: SG.accentColor
-  //     }
-  //   }
-  // }
+  @include mq("md") {
+    width: 150px;
+    nav {
+      width: 140px;
+      .small-menu {
+        display: none;
+      }
+      .large-menu {
+        display: flex;
+        width: 100px;
+        a {
+          text-decoration: none;
+        }
+        .menu-links {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          color: $whiteColor;
+          font-size: 0.8em;
+          cursor: pointer;
+          i {
+            margin-right: 10px;
+            color: $lightColor;
+          }
+        }
+      }
+    }
+  }
 }
 
 .content-container {
+  #loading {
+    font-family: $headerFont;
+    color: $lightColor;
+  }
   margin-left: 50px;
   width: 100vw;
   min-height: 100vh;
@@ -143,8 +148,17 @@
     }
   }
   .welcome-header {
+    // border: 1px solid white;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    h1 {
+      border: 1px solid white;
+    }
     img {
-      display: none;
+      // display: none;
+      margin-left: 15px;
       width: 50px;
     }
   }
@@ -156,15 +170,6 @@
     }
     @include mq("sm") {
       width: 400px;
-    }
-    @include mq("md") {
-      width: 500px;
-    }
-    @include mq("lg") {
-      width: 650px;
-    }
-    @include mq("xl") {
-      width: 750px;
     }
   }
 
@@ -211,7 +216,6 @@
         }
       }
       .pokemon-details {
-        // border: 1px solid white;
         line-height: 3em;
         span {
           display: flex;
@@ -237,7 +241,6 @@
         }
       }
     }
-
     @include mq("xs") {
       width: 300px;
       img {
@@ -267,15 +270,46 @@
         h1 {
           border-bottom: 2px solid $lightColor;
           font-size: 1.3em;
-          width: 350px;
+          width: 400px;
         }
-
-        // .name-with-buttons {
-        //   div {
-        //     width: 100px;
-        //   }
-        // }
       }
     }
+    @include mq("md") {
+      width: 450px;
+      img {
+        margin: auto;
+      }
+      section {
+        h1 {
+          border-bottom: 2px solid $lightColor;
+          font-size: 1.3em;
+          width: 400px;
+        }
+
+        .name-with-buttons {
+          div {
+            width: 100px;
+          }
+          i {
+            font-size: 1.4em;
+          }
+        }
+      }
+    }
+  }
+}
+
+.empty-message {
+  margin-top: 25px;
+  img {
+    margin: auto;
+    width: 250px;
+    border-radius: 5px;
+  }
+  p {
+    margin-top: 20px;
+    font-family: $contentFont;
+    color: $whiteColor;
+    text-align: justify;
   }
 }

@@ -29,37 +29,12 @@ function App(props) {
     slidesToShow: 1,
     slidesToScroll: 1
   };
-
-  // const sliderStyles = {
-  //   width: "250px",
-  //   margin: 0
-  // };
-  // console.log(props.pokemon);
   return (
     <div className="main-container">
       <div className="menu-styles">
         <nav>
-          <h1>PP</h1>
-          {/* <ul>
-            <Link to="/">
-              <li>
-                <i className="material-icons">home</i>
-                Start Over!
-              </li>
-            </Link>
-            <li>
-              <i className="material-icons">search</i>
-              Browse
-            </li>
-            <Link to="/browse" />
-            <Link to="/matches">
-              <li>
-                <i className="material-icons">favorite</i>
-                Matches
-              </li>
-            </Link>
-          </ul> */}
-          <div>
+          <h1 className="small-logo">PP</h1>
+          <div className="small-menu">
             <Link to="/">
               <i className="material-icons">home</i>
             </Link>
@@ -85,12 +60,43 @@ function App(props) {
               favorite
             </i>
           </div>
+          <h1 className="large-logo">PikiPoké</h1>
+          <div className="large-menu">
+            <Link to="/">
+              <div className="menu-links">
+                <i className="material-icons">home</i>
+                <p>Start</p>
+              </div>
+            </Link>
+            <div
+              className="menu-links"
+              onClick={() => {
+                props.userPokemon.length > 0
+                  ? setToBrowse(true)
+                  : alert("Please select a Pokémon before browsing.");
+              }}
+            >
+              <i className="material-icons redirect-btn">search</i>
+              <p>Browse</p>
+            </div>
+            <div
+              className="menu-links"
+              onClick={() => {
+                props.userPokemon.length > 0
+                  ? setToMatches(true)
+                  : alert("Please select a Pokémon before viewing matches.");
+              }}
+            >
+              <i className="material-icons redirect-btn">favorite</i>
+              <p>Matches</p>
+            </div>
+          </div>
         </nav>
       </div>
       <div className="content-container">
         <h1>Choose the Pokémon that best fits your personality!</h1>
         {props.loading ? (
-          <h2>Loading...</h2>
+          <h2 id="loading">Loading...</h2>
         ) : (
           <Slider className="slider-styles" {...sliderSettings}>
             {props.pokemon.map(pokemon => (

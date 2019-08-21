@@ -38,27 +38,8 @@ function Browse(props) {
     <div className="main-container">
       <div className="menu-styles">
         <nav>
-          <h1>PP</h1>
-          {/* <ul>
-            <Link to="/">
-              <li>
-                <i className="material-icons">home</i>
-                Start Over!
-              </li>
-            </Link>
-            <li>
-              <i className="material-icons">search</i>
-              Browse
-            </li>
-            <Link to="/browse" />
-            <Link to="/matches">
-              <li>
-                <i className="material-icons">favorite</i>
-                Matches
-              </li>
-            </Link>
-          </ul> */}
-          <div>
+          <h1 className="small-logo">PP</h1>
+          <div className="small-menu">
             <Link to="/">
               <i className="material-icons">home</i>
             </Link>
@@ -69,13 +50,34 @@ function Browse(props) {
               <i className="material-icons">favorite</i>
             </Link>
           </div>
+          <h1 className="large-logo">PikiPoké</h1>
+          <div className="large-menu">
+            <Link to="/">
+              <div className="menu-links">
+                <i className="material-icons">home</i>
+                <p>Start</p>
+              </div>
+            </Link>
+            <Link to="/browse">
+              <div className="menu-links">
+                <i className="material-icons">search</i>
+                <p>Browse</p>
+              </div>
+            </Link>
+            <Link to="/matches">
+              <div className="menu-links">
+                <i className="material-icons">favorite</i>
+                <p>Matches</p>
+              </div>
+            </Link>
+          </div>
         </nav>
       </div>
       <div className="content-container">
-        <span className="welcome-header">
-          <h1>Welcome, {props.userPokemon.name}! Let's find you a match.</h1>
+        <h1 className="welcome-header">
+          Welcome, {props.userPokemon.name}! Let's find you a match.
           <img src={props.userPokemon.img} alt={props.userPokemon.name} />
-        </span>
+        </h1>
         <Slider className="slider-styles" {...sliderSettings}>
           {randomOrder.length > 0 ? (
             randomOrder.map(pokemon => (
@@ -128,10 +130,16 @@ function Browse(props) {
               </div>
             ))
           ) : (
-            <h2>
-              Woops! Looks like there are no more potential matches in the Kanto
-              Region.
-            </h2>
+            <div className="empty-message">
+              <img
+                src="https://comicsandmemes.com/wp-content/uploads/surprise-pikachu-meme-000-original-blank.png"
+                alt="Surprised Pikachu"
+              />
+              <p>
+                Woops! Looks like there are no more potential matches in the
+                Kanto Region. Maybe try Johto?
+              </p>
+            </div>
           )}
         </Slider>
       </div>
