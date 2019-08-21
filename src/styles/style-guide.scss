@@ -1,0 +1,27 @@
+$contentFont: "Roboto Mono", monospace;
+$headerFont: "Roboto Slab", serif;
+$lightColor: #f2be2d;
+$darkColor: #000000;
+$whiteColor: #fcfdf9;
+$accentColor: #212121;
+$shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);
+
+$breakpoints: (
+  "xs": 500px,
+  "sm": 700px,
+  "md": 900px,
+  "lg": 1100px,
+  "xl": 1300px
+);
+
+@mixin mq($width, $type: min) {
+  @if map_has_key($breakpoints, $width) {
+    $width: map_get($breakpoints, $width);
+    @if $type == max {
+      $width: $width - 1px;
+    }
+    @media only screen and (#{$type}-width: $width) {
+      @content;
+    }
+  }
+}

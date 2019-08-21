@@ -1,20 +1,15 @@
 import React from "react";
-/** @jsx jsx */
-import { jsx } from "@emotion/core";
-import { SG } from "../styles/style-guide";
-import { menuStyles } from "../styles/menu-styles";
-import { containers } from "../styles/containers";
-import { homeCard } from "../styles/card-styles";
+import "../styles/app.scss";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { checkForMatch } from "../redux/pokemonReducer";
+import { checkForMatch, removePokemon } from "../redux/pokemonReducer";
 
 function Browse(props) {
   let filteredPokemon = props.pokemon.filter(
-    pokemon => pokemon.id !== props.chosenPokemon.id
+    pokemon => pokemon.id !== props.userPokemon.id
   );
   const shufflePokemon = arr => {
     for (let i = arr.length - 1; i > 0; i--) {
@@ -35,76 +30,109 @@ function Browse(props) {
     slidesToScroll: 1
   };
 
-  const sliderStyles = {
-    width: "350px",
-    margin: 0
-  };
-  console.log(props);
+  // const sliderStyles = {
+  //   width: "250px",
+  //   margin: 0
+  // };
   return (
-    // <div>this is browse</div>
-    <div css={containers.outer}>
-      <div css={menuStyles.headerContainer}>
-        <nav css={menuStyles.navContainer}>
-          <Link to="/">
-            <h1>PikiPoké</h1>
-          </Link>
-          <ul css={menuStyles.navLinks}>
+    <div className="main-container">
+      <div className="menu-styles">
+        <nav>
+          <h1>PP</h1>
+          {/* <ul>
+            <Link to="/">
+              <li>
+                <i className="material-icons">home</i>
+                Start Over!
+              </li>
+            </Link>
             <li>
-              <i className="material-icons">home</i>
+              <i className="material-icons">search</i>
               Browse
             </li>
+            <Link to="/browse" />
             <Link to="/matches">
               <li>
                 <i className="material-icons">favorite</i>
                 Matches
               </li>
             </Link>
-          </ul>
+          </ul> */}
+          <div>
+            <Link to="/">
+              <i className="material-icons">home</i>
+            </Link>
+            <Link to="/browse">
+              <i className="material-icons">search</i>
+            </Link>
+            <Link to="/matches">
+              <i className="material-icons">favorite</i>
+            </Link>
+          </div>
         </nav>
       </div>
-      <div css={containers.inner}>
-        <span css={browseStyles.header}>
-          <h1>Welcome, {props.chosenPokemon.name}! Let's find you a match.</h1>
-          <img src={props.chosenPokemon.img} alt={props.chosenPokemon.name} />
+      <div className="content-container">
+        <span className="welcome-header">
+          <h1>Welcome, {props.userPokemon.name}! Let's find you a match.</h1>
+          <img src={props.userPokemon.img} alt={props.userPokemon.name} />
         </span>
-        <Slider css={sliderStyles} {...sliderSettings}>
-          {randomOrder.map(pokemon => (
-            <div css={homeCard} key={pokemon.id}>
-              <img src={pokemon.img} alt={pokemon.name} />
-              <section>
-                <h1>
-                  {pokemon.name}
-                  <i className="material-icons">cancel</i>
-                  <i
-                    className="material-icons"
-                    onClick={() =>
-                      props.checkForMatch(props.chosenPokemon, pokemon)
-                    }
-                  >
-                    check_circle
-                  </i>
-                </h1>
-                <p>
-                  <i className="material-icons">location_city</i>
-                  {pokemon.location}
-                </p>
-                <p>
-                  <i className="material-icons">terrain</i>
-                  {pokemon.type}
-                </p>
-                <i className="material-icons" css={{ marginLeft: "20px" }}>
-                  person
-                </i>
-                {pokemon.traits.includes(";") ? (
-                  pokemon.traits
-                    .split(";")
-                    .map((trait, i) => <p key={i}>{trait}</p>)
-                ) : (
-                  <p>{pokemon.traits}</p>
-                )}
-              </section>
-            </div>
-          ))}
+        <Slider className="slider-styles" {...sliderSettings}>
+          {randomOrder.length > 0 ? (
+            randomOrder.map(pokemon => (
+              <div className="pokemon-card" key={pokemon.id}>
+                <img src={pokemon.img} alt={pokemon.name} />
+                <section>
+                  <h1 className="name-with-buttons">
+                    {pokemon.name}
+                    <div>
+                      <i
+                        className="material-icons"
+                        onClick={() => props.removePokemon(pokemon)}
+                      >
+                        cancel
+                      </i>
+                      <i
+                        className="material-icons"
+                        onClick={() =>
+                          props.checkForMatch(props.userPokemon, pokemon)
+                        }
+                      >
+                        check_circle
+                      </i>
+                    </div>
+                  </h1>
+                  <div className="pokemon-details">
+                    <span>
+                      <i className="material-icons">location_city</i>
+                      {pokemon.location}
+                    </span>
+                    <span>
+                      <i className="material-icons">terrain</i>
+                      {pokemon.type}
+                    </span>
+                    <span>
+                      <i className="material-icons">person</i>
+                      Bio:
+                    </span>
+                    <div className="pokemon-bio">
+                      {pokemon.traits.includes(";") ? (
+                        pokemon.traits
+                          .split(";")
+                          .map((trait, i) => <p key={i}>{trait}</p>)
+                      ) : (
+                        <p>{pokemon.traits}</p>
+                      )}
+                    </div>
+                  </div>
+                </section>
+              </div>
+            ))
+          ) : (
+            <h2>
+              Woops! Looks like there are no more potential matches in the Kanto
+              Region.
+            </h2>
+          )}
         </Slider>
       </div>
     </div>
@@ -113,27 +141,12 @@ function Browse(props) {
 
 const mapStateToProps = reduxState => {
   return {
-    chosenPokemon: reduxState.userReducer.chosenPokemon,
     pokemon: reduxState.pokemonReducer.pokemon,
+    userPokemon: reduxState.pokemonReducer.userPokemon,
     matches: reduxState.pokemonReducer.matches
   };
 };
 export default connect(
   mapStateToProps,
-  { checkForMatch }
+  { checkForMatch, removePokemon }
 )(Browse);
-
-const browseStyles = {
-  header: {
-    marginTop: "15px",
-    display: "flex",
-    flexDirection: "row",
-
-    h1: {
-      width: "600px"
-    },
-    img: {
-      width: "100px"
-    }
-  }
-};

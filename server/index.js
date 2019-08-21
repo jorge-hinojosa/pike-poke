@@ -29,6 +29,7 @@ app.use(
 //ENDPOINTS
 //--Pokemon Endpoints
 app.get("/api/pokemon", PC.getPokemon);
+app.post("/api/match");
 
 app.use(express.json());
 
