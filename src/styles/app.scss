@@ -95,11 +95,29 @@
           align-items: center;
           color: $whiteColor;
           font-size: 0.8em;
-          cursor: pointer;
+
           i {
             margin-right: 10px;
             color: $lightColor;
           }
+        }
+        .menu-links:hover {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+  @include mq("lg") {
+    width: 250px;
+    nav {
+      width: 240px;
+
+      .large-menu {
+        width: 150px;
+
+        .menu-links {
+          margin-left: 20px;
+          font-size: 1.1em;
         }
       }
     }
