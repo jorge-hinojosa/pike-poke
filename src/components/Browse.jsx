@@ -29,11 +29,6 @@ function Browse(props) {
     slidesToShow: 1,
     slidesToScroll: 1
   };
-
-  // const sliderStyles = {
-  //   width: "250px",
-  //   margin: 0
-  // };
   return (
     <div className="main-container">
       <div className="menu-styles">

@@ -1,15 +1,13 @@
+const path = require("path");
 require("dotenv").config();
 const express = require("express");
-const session = require("express-session");
 const massive = require("massive");
 const app = express();
 
-const { SERVER_PORT, SESSION_SECRET, CONNECTION_STRING } = process.env;
+const { SERVER_PORT, CONNECTION_STRING } = process.env;
 
-//Controllers
 const PC = require("./controller/pokemon_controller");
 
-//DB Connection
 massive(CONNECTION_STRING)
   .then(db => {
     app.set("db", db);
@@ -17,20 +15,13 @@ massive(CONNECTION_STRING)
   })
   .catch(err => console.log(err));
 
-//Session setup
-app.use(
-  session({
-    secret: SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false
-  })
-);
-
-//ENDPOINTS
-//--Pokemon Endpoints
-app.get("/api/pokemon", PC.getPokemon);
-app.post("/api/match");
-
 app.use(express.json());
+
+app.get("/api/pokemon", PC.getPokemon);
+
+app.use(express.static(`${__dirname}/../build`));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../build/index.html"));
+});
 
 app.listen(SERVER_PORT, () => console.log(`Listening on port ${SERVER_PORT}`));
